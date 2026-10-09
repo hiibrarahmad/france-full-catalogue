@@ -1,0 +1,290 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Études en France Catalogue</title>
+<meta name="description" content="Every course in the Études en France catalogue – searchable, with entry levels, open years, fees, English-test rules and contact emails.">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#f5f6f8; --surface:#ffffff; --surface-2:#eef0f4; --border:#dde1e8;
+  --text:#11141a; --text-2:#4a5160; --muted:#737b8c;
+  --accent:#1f5fbf; --accent-soft:#e3ecfa; --accent-ink:#174a96;
+  --good:#0a7d0a; --good-soft:#e2f4e2; --warn:#8f5d00; --warn-soft:#fbf0d4; --bad:#b42f2f; --bad-soft:#fbe5e5;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0f1115; --surface:#171a20; --surface-2:#20242c; --border:#2e333d;
+    --text:#eef1f6; --text-2:#bfc5d1; --muted:#8a92a3;
+    --accent:#5b97ea; --accent-soft:#1b2a42; --accent-ink:#9cc0f3;
+    --good:#5fcf5f; --good-soft:#17301a; --warn:#f2c255; --warn-soft:#3a2f12; --bad:#f08a8a; --bad-soft:#3d1d1d;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0f1115; --surface:#171a20; --surface-2:#20242c; --border:#2e333d;
+  --text:#eef1f6; --text-2:#bfc5d1; --muted:#8a92a3;
+  --accent:#5b97ea; --accent-soft:#1b2a42; --accent-ink:#9cc0f3;
+  --good:#5fcf5f; --good-soft:#17301a; --warn:#f2c255; --warn-soft:#3a2f12; --bad:#f08a8a; --bad-soft:#3d1d1d;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--accent-ink)}
+button,input,select{font:inherit;color:inherit}
+.wrap{max-width:1280px;margin:0 auto;padding:0 16px}
+header{background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:env(safe-area-inset-top,0px);z-index:10}
+.top{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:12px 0}
+.top h1{margin:0;font-size:18px;font-weight:650}
+.sub{color:var(--muted);font-size:13px}
+.spacer{flex:1}
+.btn{border:1px solid var(--border);background:var(--surface);border-radius:9px;padding:7px 13px;cursor:pointer;font-weight:550;text-decoration:none;color:inherit;display:inline-block}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.mini{padding:2px 8px;font-size:12.5px}
+.searchrow{display:flex;gap:8px;flex-wrap:wrap;padding:0 0 12px}
+#q{flex:1;min-width:220px;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}
+select{padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}
+main{padding:18px 0 60px}
+.layout{display:grid;grid-template-columns:260px 1fr;gap:18px;align-items:start}
+@media (max-width:900px){.layout{grid-template-columns:1fr}.filters{display:none}.filters.open{display:block}}
+.ftoggle{display:none}@media (max-width:900px){.ftoggle{display:inline-block}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:12px}
+.filters{padding:14px;position:sticky;top:120px;max-height:calc(100vh - 140px);overflow:auto}
+.fg{border-top:1px solid var(--border);padding:11px 0}.fg:first-child{border-top:0;padding-top:0}
+.fg h4{margin:0 0 6px;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.fg label{display:flex;gap:8px;align-items:flex-start;padding:2px 0;font-size:14px;cursor:pointer}
+.fg label .n{margin-left:auto;color:var(--muted);font-size:12px;font-variant-numeric:tabular-nums}
+.fg .scroll{max-height:220px;overflow:auto}
+.bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px}
+.bar b{font-variant-numeric:tabular-nums}
+.list{display:grid;gap:8px}
+.row{padding:12px 14px;cursor:pointer}
+.row:hover{border-color:var(--accent)}
+.row .t{font-weight:620;line-height:1.35}
+.row .w{color:var(--text-2);font-size:13.5px;margin-top:2px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{font-size:12.5px;padding:1px 9px;border-radius:999px;background:var(--surface-2);color:var(--text-2);white-space:nowrap}
+.chip.good{background:var(--good-soft);color:var(--good)}.chip.warn{background:var(--warn-soft);color:var(--warn)}.chip.bad{background:var(--bad-soft);color:var(--bad)}.chip.acc{background:var(--accent-soft);color:var(--accent-ink)}
+.pager{display:flex;gap:8px;justify-content:center;align-items:center;margin-top:16px;flex-wrap:wrap}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+dialog{border:0;padding:0;border-radius:14px;max-width:740px;width:calc(100% - 24px);max-height:calc(100vh - 32px);background:var(--surface);color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.45)}
+.dlg{padding:20px 22px}
+.kv{display:grid;grid-template-columns:150px 1fr;gap:6px 14px;font-size:14px;margin:14px 0}
+@media (max-width:600px){.kv{grid-template-columns:1fr}}
+.kv dt{color:var(--muted)}.kv dd{margin:0}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)}
+th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+.tw{overflow-x:auto}
+.sel{user-select:all;font-family:ui-monospace,monospace;font-size:13px;word-break:break-all}
+.note{font-size:13px;color:var(--text-2);background:var(--surface-2);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+footer{color:var(--muted);font-size:12.5px;text-align:center;padding:20px 16px 40px}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div><h1>📚 Études en France – full course catalogue</h1><div class="sub" id="sub">Loading…</div></div>
+      <div class="spacer"></div>
+      <a class="btn" href="https://hiibrarahmad.github.io/france-masters-dashboard/" target="_blank" rel="noopener">⭐ My eligible programs ↗</a>
+      <button class="btn" id="themeBtn" aria-label="Switch light or dark theme">◐</button>
+    </div>
+    <div class="searchrow">
+      <input type="search" id="q" placeholder="Search any course, school, city or subject… (e.g. biomedical, Lyon, cybersecurity)" aria-label="Search">
+      <select id="sort" aria-label="Sort">
+        <option value="az">Sort: title A–Z</option>
+        <option value="fee">Sort: lowest catalogue fee</option>
+        <option value="school">Sort: school A–Z</option>
+        <option value="city">Sort: city A–Z</option>
+      </select>
+      <button class="btn ftoggle" id="ftoggle">Filters</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="layout">
+    <aside class="card filters" id="filters"></aside>
+    <div>
+      <div class="note" id="pending" hidden></div>
+      <div class="note">Data from the official <a href="https://etudesenfrance.diplomatie.gouv.fr/catalogue-formations" target="_blank" rel="noopener">Études en France catalogue</a>. “Level” is the study year you join (Bac+4 = Master 1, Bac+5 = Master 2). Fees are what each school typed into the catalogue – public universities charge non-EU students €3,950/yr for a master (2026-27) even when they show less. English-test info comes from each listing's text; “not stated” means ask the school.</div>
+      <div class="bar"><span><b id="n">0</b> <span class="sub">courses match</span></span><span class="spacer"></span><button class="btn" id="copyCsv">Copy results as CSV</button><button class="btn" id="copyMails">Copy emails</button></div>
+      <div class="list" id="list"></div>
+      <div class="pager" id="pager"></div>
+    </div>
+  </div>
+</main>
+<dialog id="dlg"><div class="dlg" id="dlgBody"></div></dialog>
+<footer>Source: Études en France public catalogue, downloaded <span id="fetched"></span>. Always confirm details on the school's own website.</footer>
+
+<script src="data/catalogue.js"></script>
+<script>
+(() => {
+const C = window.COURSES, META = window.META, PER = 40;
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const eur = n => "€" + Number(n).toLocaleString("en-GB");
+const store = {get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }};
+const fold = s => (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+
+/* theme */
+const setTheme = t => t ? document.documentElement.dataset.theme = t : delete document.documentElement.dataset.theme;
+setTheme(store.get("theme", null));
+$("#themeBtn").onclick = () => { const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches; const t = dark ? "light" : "dark"; setTheme(t); store.set("theme", t); };
+
+$("#sub").textContent = `${C.length.toLocaleString("en-GB")} courses · ${META.open.toLocaleString("en-GB")} open for applications · downloaded ${META.fetched}`;
+$("#fetched").textContent = META.fetched;
+if (!COMPLETE) { $("#pending").hidden = false; $("#pending").textContent = `⏳ Still downloading course details: ${META.withDetails.toLocaleString("en-GB")} of ${META.count.toLocaleString("en-GB")} courses have full details (open/closed, language, fees, English rules, email) so far. The rest show title and school only and will be filled in shortly.`; }
+
+for (const c of C) {
+  c.h = fold([c.t, c.s, c.g, c.c, c.dom, c.d].join(" "));
+  c.minFee = c.fee ? c.fee[0] : null;
+  c.ek = c.eng ? c.eng.k : "nd";
+}
+const ENG = {moi: "MOI letter accepted", test: "Test required (IELTS/TOEFL…)", level: "English level only (B2/C1)", none: "Not stated", nd: "Details not downloaded"};
+const LEVELS = [1, 2, 3, 4, 5, 6, 7, 8];
+
+const COMPLETE = META.withDetails >= META.count * 0.98;
+const DEF = () => ({q: "", deg: [], lv: [], lang: [], open: COMPLETE ? "open" : "any", eng: [], pte: false, mail: false, par: "any", maxFee: 0, city: ""});
+let S = {...DEF(), ...(COMPLETE ? store.get("cat-filters", {}) : {})}, page = 0, cur = [];
+
+function match(c, s = S, skip = "") {
+  if (s.q && !s.q.split(/\s+/).every(w => c.h.includes(w))) return false;
+  if (skip !== "deg" && s.deg.length && !s.deg.includes(c.d)) return false;
+  if (skip !== "lv" && s.lv.length && !(s.open === "open" ? c.ol : c.lv).some(l => s.lv.includes(l))) return false;
+  if (skip !== "lang" && s.lang.length && !s.lang.includes(c.lang || "Unknown")) return false;
+  if (s.open === "open" && !c.o) return false;
+  if (s.open === "closed" && (c.o || c.nd)) return false;
+  if (skip !== "eng" && s.eng.length && !s.eng.includes(c.ek)) return false;
+  if (s.pte && !(c.eng && c.eng.t && c.eng.t.includes("PTE"))) return false;
+  if (s.mail && !c.mail) return false;
+  if (s.par === "no" && c.par) return false;
+  if (s.par === "yes" && !c.par) return false;
+  if (s.maxFee && (c.minFee == null || c.minFee > s.maxFee)) return false;
+  if (s.city && !fold(c.c).includes(s.city)) return false;
+  return true;
+}
+const count = (key, f) => { const o = {}; C.forEach(c => { if (match(c, S, key)) f(c).forEach(v => o[v] = (o[v] || 0) + 1); }); return o; };
+function boxes(name, opts, sel, counts, lab = x => x) {
+  return opts.map(v => `<label><input type="checkbox" data-f="${name}" value="${esc(v)}" ${sel.includes(v) ? "checked" : ""}><span>${esc(lab(v))}</span><span class="n">${counts[v] || 0}</span></label>`).join("");
+}
+function renderFilters() {
+  const dc = count("deg", c => [c.d]), lc = count("lv", c => S.open === "open" ? c.ol : c.lv), gc = count("lang", c => [c.lang || "Unknown"]), ec = count("eng", c => [c.ek]);
+  const degs = Object.keys(dc).sort((a, b) => dc[b] - dc[a]);
+  $("#filters").innerHTML = `
+    <div class="fg"><h4>Status</h4><select id="open" style="width:100%"><option value="open">Open for applications</option><option value="any">Open or closed</option><option value="closed">Closed only</option></select></div>
+    <div class="fg"><h4>Level you'd join</h4>${boxes("lv", LEVELS, S.lv, lc, l => "Bac +" + l + ({1: " (Licence 1)", 3: " (Licence 3)", 4: " (Master 1)", 5: " (Master 2)", 6: " (Mastère Spécialisé)", 8: " (PhD)"}[l] || ""))}</div>
+    <div class="fg"><h4>Teaching language</h4>${boxes("lang", ["English", "French & English", "French", "Unknown"], S.lang, gc)}</div>
+    <div class="fg"><h4>English proof</h4>${boxes("eng", Object.keys(ENG), S.eng, ec, k => ENG[k])}
+      <label><input type="checkbox" id="pte" ${S.pte ? "checked" : ""}><span>PTE accepted</span></label></div>
+    <div class="fg"><h4>Max catalogue fee / year</h4><select id="maxFee" style="width:100%">${[[0, "Any (incl. not stated)"], [500, "≤ €500"], [1000, "≤ €1,000"], [4000, "≤ €4,000"], [6000, "≤ €6,000"], [10000, "≤ €10,000"], [15000, "≤ €15,000"]].map(([v, l]) => `<option value="${v}" ${S.maxFee == v ? "selected" : ""}>${l}</option>`).join("")}</select></div>
+    <div class="fg"><h4>City</h4><input id="city" value="${esc(S.city)}" placeholder="e.g. Grenoble" style="width:100%;padding:7px 9px;border:1px solid var(--border);border-radius:8px;background:var(--surface)"></div>
+    <div class="fg"><h4>Other</h4>
+      <label><input type="checkbox" id="mail" ${S.mail ? "checked" : ""}><span>Has a contact email</span></label>
+      <label><span>Separate school application</span></label>
+      <select id="par" style="width:100%"><option value="any">Either</option><option value="no">Not needed</option><option value="yes">Needed</option></select></div>
+    <div class="fg"><h4>Degree type</h4><div class="scroll">${boxes("deg", degs, S.deg, dc)}</div></div>
+    <button class="btn" id="reset" style="width:100%">Reset filters</button>`;
+  $("#open").value = S.open; $("#par").value = S.par;
+  $$("#filters [data-f]").forEach(el => el.onchange = () => { const f = el.dataset.f; S[f] = $$(`#filters [data-f="${f}"]:checked`).map(x => f === "lv" ? +x.value : x.value); go(); });
+  $("#open").onchange = e => { S.open = e.target.value; go(); };
+  $("#par").onchange = e => { S.par = e.target.value; go(); };
+  $("#maxFee").onchange = e => { S.maxFee = +e.target.value; go(); };
+  $("#pte").onchange = e => { S.pte = e.target.checked; go(); };
+  $("#mail").onchange = e => { S.mail = e.target.checked; go(); };
+  let t; $("#city").oninput = e => { clearTimeout(t); t = setTimeout(() => { S.city = fold(e.target.value.trim()); go(false); }, 250); };
+  $("#reset").onclick = () => { S = DEF(); $("#q").value = ""; go(); };
+}
+const SORT = {az: (a, b) => a.t.localeCompare(b.t), fee: (a, b) => (a.minFee ?? 1e9) - (b.minFee ?? 1e9), school: (a, b) => a.s.localeCompare(b.s), city: (a, b) => (a.c || "~").localeCompare(b.c || "~")};
+function engChip(c) {
+  if (!c.eng) return "";
+  if (c.eng.k === "moi") return `<span class="chip good">✓ MOI accepted</span>`;
+  if (c.eng.k === "test") return `<span class="chip warn">📝 ${c.eng.i ? "IELTS " + esc(c.eng.i) : esc(c.eng.t[0])}${c.eng.t.includes("PTE") ? " · PTE ok" : ""}</span>`;
+  if (c.eng.k === "level") return `<span class="chip">English ${esc(c.eng.l)}</span>`;
+  return "";
+}
+function row(c) {
+  const lv = (c.o ? c.ol : c.lv).map(l => "Bac+" + l).join(" / ");
+  return `<article class="card row" tabindex="0" data-id="${c.id}">
+    <div class="t">${esc(c.t)}</div>
+    <div class="w">🏛 ${esc([c.s, c.g].filter(Boolean).join(" – "))}${c.c ? " · 📍 " + esc(c.c) : ""}</div>
+    <div class="chips">
+      ${c.nd ? '<span class="chip">Details pending</span>' : c.o ? '<span class="chip good">Open</span>' : '<span class="chip bad">Closed</span>'}
+      <span class="chip acc">${esc(c.d)}</span>
+      ${lv ? `<span class="chip">${esc(lv)}</span>` : ""}
+      ${c.lang ? `<span class="chip">${c.lang === "English" ? "🇬🇧 English" : c.lang === "French" ? "🇫🇷 French" : "🇫🇷🇬🇧 FR + EN"}</span>` : ""}
+      ${c.fee ? `<span class="chip">${c.fee.map(eur).join(" / ")}</span>` : ""}
+      ${engChip(c)}
+      ${c.par ? '<span class="chip warn">+ school application</span>' : ""}
+      ${c.mail ? '<span class="chip">✉ email</span>' : ""}
+    </div></article>`;
+}
+function go(refilter = true) {
+  S.q = fold($("#q").value.trim());
+  store.set("cat-filters", {...S, q: ""});
+  cur = C.filter(c => match(c)).sort(SORT[$("#sort").value]);
+  page = 0; draw();
+  if (refilter) renderFilters();
+}
+function draw() {
+  $("#n").textContent = cur.length.toLocaleString("en-GB");
+  const pages = Math.max(1, Math.ceil(cur.length / PER));
+  $("#list").innerHTML = cur.length ? cur.slice(page * PER, page * PER + PER).map(row).join("") : `<div class="card empty">No courses match. Loosen a filter or clear the search.</div>`;
+  $("#pager").innerHTML = pages > 1 ? `<button class="btn" data-p="${page - 1}" ${page ? "" : "disabled"}>‹ Prev</button><span class="sub">Page ${page + 1} of ${pages}</span><button class="btn" data-p="${page + 1}" ${page + 1 < pages ? "" : "disabled"}>Next ›</button>` : "";
+  $$("#pager [data-p]").forEach(b => b.onclick = () => { page = +b.dataset.p; draw(); window.scrollTo(0, 0); });
+}
+let qt; $("#q").oninput = () => { clearTimeout(qt); qt = setTimeout(() => go(), 200); };
+$("#sort").onchange = () => go(false);
+$("#ftoggle").onclick = () => $("#filters").classList.toggle("open");
+
+/* detail */
+const byId = new Map(C.map(c => [c.id, c]));
+const [_f, _s] = [0, 1];
+function open(id) {
+  const c = byId.get(id), [f, s] = id.split("/");
+  const eef = `https://etudesenfrance.diplomatie.gouv.fr/catalogue-formations/formation/${f}/site/${s}`;
+  const eng = !c.eng ? "Details not downloaded – open in Études en France." :
+    c.eng.k === "moi" ? "A Medium of Instruction (MOI) certificate is accepted, according to the listing." :
+    c.eng.k === "test" ? `Test required: ${c.eng.t.join(", ")}${c.eng.i ? ` (IELTS ${c.eng.i})` : ""}. MOI letter not mentioned. ${c.eng.t.includes("PTE") ? "PTE accepted." : "PTE not listed."}` :
+    c.eng.k === "level" ? `English level ${c.eng.l} stated, no test named.` : "Not stated in the listing – ask the school.";
+  $("#dlgBody").innerHTML = `
+    <button class="btn" style="float:right" onclick="this.closest('dialog').close()" aria-label="Close">✕</button>
+    <div class="sub">${esc(c.d)}${c.cat ? " · " + esc(c.cat) : ""}</div>
+    <h2 style="margin:4px 50px 4px 0;font-size:19px">${esc(c.t)}</h2>
+    <div class="chips">${c.o ? '<span class="chip good">Open for applications</span>' : '<span class="chip bad">Closed</span>'}${engChip(c)}</div>
+    <dl class="kv">
+      <dt>School</dt><dd>${esc([c.s, c.g].filter(Boolean).join(" – "))}</dd>
+      <dt>City</dt><dd>${esc(c.c || "–")}</dd>
+      ${c.dom ? `<dt>Subject</dt><dd>${esc(c.dom)}</dd>` : ""}
+      <dt>Language</dt><dd>${esc(c.lang || "–")}${c.fr ? " · French level/test mentioned" : ""}</dd>
+      <dt>English proof</dt><dd>${esc(eng)}</dd>
+      <dt>Catalogue fee</dt><dd>${c.fee ? c.fee.map(eur).join(" / ") + " per year (as entered by the school)" : "Not stated"}</dd>
+      <dt>Apply until</dt><dd>${esc(c.to || "–")}${c.par ? " · <b>also apply on the school's own site</b>" : ""}</dd>
+      <dt>Contact email</dt><dd>${c.mail ? `<span class="sel">${esc(c.mail)}</span> <button class="btn mini" id="cpMail">Copy</button>` : "–"}</dd>
+    </dl>
+    ${c.y && c.y.length ? `<div class="tw"><table><thead><tr><th>Year</th><th>Level</th><th>Status</th><th>Fee</th></tr></thead><tbody>${c.y.map(y => `<tr><td>${y[0]}</td><td>${esc(y[1] || "–")}</td><td>${y[2] ? '<span class="chip good">Open</span>' : '<span class="chip bad">Closed</span>'}</td><td>${y[3] ? eur(y[3]) : "–"}</td></tr>`).join("")}</tbody></table></div>` : ""}
+    <div class="chips" style="margin-top:16px"><a class="btn primary" href="${eef}" target="_blank" rel="noopener">Open in Études en France ↗</a>${c.web ? `<a class="btn" href="${esc(c.web.startsWith("http") ? c.web : "https://" + c.web)}" target="_blank" rel="noopener">Program website ↗</a>` : ""}</div>`;
+  const cp = $("#cpMail"); if (cp) cp.onclick = () => copy(c.mail, cp);
+  $("#dlg").showModal();
+}
+$("#list").addEventListener("click", e => { const r = e.target.closest(".row"); if (r) open(r.dataset.id); });
+$("#list").addEventListener("keydown", e => { const r = e.target.closest(".row"); if (r && e.key === "Enter") open(r.dataset.id); });
+$("#dlg").addEventListener("click", e => { if (e.target.id === "dlg") e.target.close(); });
+
+function copy(text, btn) {
+  const l = btn.textContent, done = m => { btn.textContent = m; setTimeout(() => btn.textContent = l, 2000); };
+  try { navigator.clipboard.writeText(text).then(() => done("Copied ✓"), () => done("Copy failed")); } catch { done("Copy failed"); }
+}
+$("#copyCsv").onclick = e => {
+  const q = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const head = ["Title", "Degree", "School", "Group", "City", "Open", "Levels", "Language", "Catalogue fee", "English proof", "Email", "Apply until", "EEF link"];
+  const lines = cur.slice(0, 5000).map(c => { const [f, s] = c.id.split("/"); return [c.t, c.d, c.s, c.g, c.c, c.o ? "Open" : "Closed", c.lv.map(l => "Bac+" + l).join(" "), c.lang, (c.fee || []).join(" / "), c.eng ? ENG[c.eng.k] + (c.eng.t ? " (" + c.eng.t.join(", ") + ")" : "") : "", c.mail, c.to, `https://etudesenfrance.diplomatie.gouv.fr/catalogue-formations/formation/${f}/site/${s}`].map(q).join(","); });
+  copy([head.map(q).join(","), ...lines].join("\r\n"), e.currentTarget);
+};
+$("#copyMails").onclick = e => copy([...new Set(cur.filter(c => c.mail).map(c => c.mail.toLowerCase()))].join(", "), e.currentTarget);
+
+$("#sort").value = "az";
+go();
+})();
+</script>
