@@ -92,9 +92,9 @@ def build():
         seen.add(key)
         d = details.get(key, {})
         ok = "formationInformationGenerale" in d
-        g = d.get("formationInformationGenerale", {}) if ok else {}
-        E = d.get("formationsInformationsEntree", []) if ok else []
-        contact = d.get("siteInformationContact", {}) if ok else {}
+        g = (d.get("formationInformationGenerale") or {}) if ok else {}
+        E = (d.get("formationsInformationsEntree") or []) if ok else []
+        contact = (d.get("siteInformationContact") or {}) if ok else {}
         req = clean(g.get("preRequis"))
         proc = " ".join(clean(e.get("procedureInscription")) for e in E)
         text = " ".join([req, clean(g.get("descriptionFormation")), proc])
