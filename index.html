@@ -122,6 +122,7 @@ footer{color:var(--muted);font-size:12.5px;text-align:center;padding:20px 16px 4
 <script>
 (() => {
 const C = window.COURSES, META = window.META, PER = 40;
+const COMPLETE = META.withDetails >= META.count * 0.98;
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const eur = n => "€" + Number(n).toLocaleString("en-GB");
@@ -145,7 +146,6 @@ for (const c of C) {
 const ENG = {moi: "MOI letter accepted", test: "Test required (IELTS/TOEFL…)", level: "English level only (B2/C1)", none: "Not stated", nd: "Details not downloaded"};
 const LEVELS = [1, 2, 3, 4, 5, 6, 7, 8];
 
-const COMPLETE = META.withDetails >= META.count * 0.98;
 const DEF = () => ({q: "", deg: [], lv: [], lang: [], open: COMPLETE ? "open" : "any", eng: [], pte: false, mail: false, par: "any", maxFee: 0, city: ""});
 let S = {...DEF(), ...(COMPLETE ? store.get("cat-filters", {}) : {})}, page = 0, cur = [];
 
